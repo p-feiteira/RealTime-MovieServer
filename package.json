@@ -1,0 +1,32 @@
+{
+  "name": "realtime-movieserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p-feiteira/RealTime-MovieServer.git"
+  },
+  "keywords": [
+    "movies"
+  ],
+  "author": "Pedro Feiteira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/p-feiteira/RealTime-MovieServer/issues"
+  },
+  "homepage": "https://github.com/p-feiteira/RealTime-MovieServer#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "path": "^0.12.7",
+    "readable-stream-clone": "0.0.7"
+  }
+}

@@ -1,0 +1,13 @@
+body{
+    background-image: url("/css/images/background.jpg");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+}
+
+.video-ic::cue {
+    background-color: transparent;
+    color: #FFF;
+    font-size: 32px;
+    font-family: "Lobster", cursive;
+}
