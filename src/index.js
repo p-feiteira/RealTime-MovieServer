@@ -10,13 +10,17 @@ const io = socketIO(server);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-let currentVideoTime = 0;
+let currentVideoTime = [];
 let isVideoPlaying = false;
 
 io.on('connection', (socket) => {
   console.log('A user connected');
 
-  socket.emit('currentTime', currentVideoTime);
+  if (isVideoPlaying){
+    socket.broadcast.emit('videoPause');
+    socket.broadcast.emit("getTime")
+    socket.broadcast.emit("sync", Math.max(...currentVideoTime))
+  }
 
   // When a user plays the video, update isVideoPlaying and broadcast 'play' event
   socket.on('videoPlay', () => {
@@ -29,15 +33,19 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('pause');
   });
 
-  // When a user updates the time, broadcast the new time
-  socket.on('updateTime', (data) => {
-    currentVideoTime = data.time;
-    socket.broadcast.emit('syncTime', { time: data.time });
+  socket.on("storeTime", (data) => {
+    currentVideoTime.push(data)
+    console.log(currentVideoTime)
+  });
+
+  socket.on("cleanUp", () => {
+    currentVideoTime = [];
   });
 
   socket.on('disconnect', () => {
     console.log('A user disconnected');
   });
+
 });
 
 server.listen(3000, () => {
