@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Shared Video Player</title>
+  <style>
+    video::-webkit-media-controls {
+      display: none !important;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row mt-5">
+      <video id="sharedVideo" style='border: 1px solid #212529;background: #212529;'>
+        <source src="test.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="row bg-dark">
+      <div class="col-1">
+        <button id="playButton" class="btn btn-primary">Play</button>
+      </div>
+      <div class="col-1">
+        <button id="fullscreen" class="btn btn-primary">Fullscreen</button>
+      </div>
+      <div class="col-1">
+        <div class="slider-container">
+          <input type="range" min="0" max="100" value="50" class="slider" id="volumeSlider">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Get the element you want displayed in fullscreen mode (a video in this example): */
+    const elem = document.getElementById("sharedVideo");
+    const fullscreen = document.getElementById('fullscreen');
+
+    fullscreen.addEventListener("click", () => {
+      openFullscreen()
+    })
+
+    /* When the openFullscreen() function is executed, open the video in fullscreen.
+    Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
+    function openFullscreen() {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    }
+  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+
+
+
+    // Inside your existing script tag in HTML
+
+    const socket = io();
+    const video = document.getElementById('sharedVideo');
+    const playButton = document.getElementById('playButton');
+    var volumeSlider = document.getElementById("volumeSlider");
+
+    volumeSlider.oninput = function () {
+      video.volume = this.value / 100;
+    };
+    let isPlaying = false;
+
+    socket.on('currentTime', (data) => {
+      video.currentTime = data;
+    });
+
+    playButton.addEventListener('click', () => {
+      if (isPlaying) {
+        isPlaying = false;
+        video.pause();
+        socket.emit('videoPause');
+      } else {
+        isPlaying = true;
+        video.play();
+        socket.emit('videoPlay');
+      }
+    });
+
+    video.addEventListener('pause', () => {
+      isPlaying = false;
+    });
+
+    socket.on('syncTime', (data) => {
+      video.currentTime = data.time;
+    });
+
+    socket.on('play', () => {
+      video.play()
+        .catch((error) => {
+          console.error('Failed to play video:', error);
+        });
+    });
+
+    socket.on('pause', () => {
+      video.pause()
+        .catch((error) => {
+          console.error('Failed to pause video:', error);
+        });
+    });
+
+  </script>
+</body>
+
+</html>
