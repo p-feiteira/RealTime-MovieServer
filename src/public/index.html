@@ -24,14 +24,15 @@
   <script>
     const socket = io();
     const video = document.getElementById('sharedVideo');
+    console.log(video);
 
     video.addEventListener("play", () => {
       socket.emit('videoPlay');
-    })
+    });
 
     video.addEventListener("ended", () => {
       socket.emit('cleanUp');
-    })
+    });
 
     video.addEventListener('pause', () => {
       socket.emit('videoPause');
@@ -42,6 +43,7 @@
     });
 
     socket.on("sync", (data) => {
+      console.log("SYNC!!" + data)
       video.currentTime = data
     })
 

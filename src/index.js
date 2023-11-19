@@ -10,17 +10,20 @@ const io = socketIO(server);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-let currentVideoTime = [];
+let currentVideoTime = 0;
 let isVideoPlaying = false;
 
 io.on('connection', (socket) => {
   console.log('A user connected');
 
+  socket.broadcast.emit("getTime")
+
   if (isVideoPlaying){
-    socket.broadcast.emit('videoPause');
-    socket.broadcast.emit("getTime")
-    socket.broadcast.emit("sync", Math.max(...currentVideoTime))
+    socket.emit('play');
   }
+
+  console.log(currentVideoTime)
+  socket.broadcast.emit("sync", currentVideoTime)
 
   // When a user plays the video, update isVideoPlaying and broadcast 'play' event
   socket.on('videoPlay', () => {
@@ -34,7 +37,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on("storeTime", (data) => {
-    currentVideoTime.push(data)
+    currentVideoTime = Math.max(currentVideoTime, data? data: 0)
     console.log(currentVideoTime)
   });
 

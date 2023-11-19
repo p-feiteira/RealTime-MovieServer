@@ -1,35 +1,24 @@
 {
-    "name": "realtime-server",
-    "version": "0.0.1",
-    "description": "Stream Anything",
-    "main": "./server/proxy.js",
-    "scripts": {
-        "start": "cd server && node proxy.js",
-        "proxy": "cd server && nodemon proxy.js",
-        "server": "cd server && nodemon server.js",
-        "dev": "concurrently \"npm run proxy\" \"npm run server\""
-    },
-    "devDependencies": {
-        "nodemon": "^3.0.1"
-    },
-    "dependencies": {
-        "concurrently": "^8.2.2",
-        "express": "^4.18.2",
-        "http-proxy": "^1.17.0",
-        "socket.io": "^4.7.2"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/eminmuhammadi/emiga-stream.git"
-    },
-    "keywords": [
-        "stream",
-        "emiga-stream"
-    ],
-    "author": "Emin Muhammadi",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/eminmuhammadi/emiga-stream/issues"
-    },
-    "homepage": "https://github.com/eminmuhammadi/emiga-stream#readme"
+  "name": "realtime-movieserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p-feiteira/RealTime-MovieServer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/p-feiteira/RealTime-MovieServer/issues"
+  },
+  "homepage": "https://github.com/p-feiteira/RealTime-MovieServer#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  }
 }
