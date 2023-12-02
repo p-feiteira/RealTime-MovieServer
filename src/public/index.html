@@ -24,7 +24,6 @@
   <script>
     const socket = io();
     const video = document.getElementById('sharedVideo');
-    console.log(video);
 
     video.addEventListener("play", () => {
       socket.emit('videoPlay');
@@ -43,8 +42,11 @@
     });
 
     socket.on("sync", (data) => {
-      console.log("SYNC!!" + data)
-      video.currentTime = data
+      video.currentTime = data ? data : 0;
+    })
+
+    socket.on("setup", () => {
+      video.muted = true;
     })
 
     socket.on('play', () => {
@@ -52,7 +54,6 @@
         .catch((error) => {
           console.error('Failed to play video:', error);
         });
-
     });
 
     socket.on('pause', () => {
