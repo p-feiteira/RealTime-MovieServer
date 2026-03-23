@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+}
+
+@layer components {
+  .campfire-gradient {
+    @apply bg-gradient-to-r from-campfire-600 via-campfire-500 to-campfire-400;
+  }
+  
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  .video-container {
+    @apply relative w-full max-w-4xl mx-auto rounded-lg overflow-hidden shadow-2xl;
+  }
+  
+  .control-button {
+    @apply p-3 rounded-full bg-campfire-500 hover:bg-campfire-600 transition-all duration-200 text-white shadow-lg hover:shadow-xl transform hover:scale-105;
+  }
+} 
